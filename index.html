@@ -1,0 +1,163 @@
+<!doctype html>
+<html>
+   <head>
+      <title>TEST</title>
+      <style>
+         * { margin: 0; padding: 0; box-sizing: border-box; }
+         body { font: 13px Helvetica, Arial; }
+         form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+         form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+         form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+         #messages { list-style-type: none; margin: 0; padding: 0; }
+         #messages li { padding: 5px 10px; }
+         #messages li:nth-child(odd) { background: #eee; }
+      </style>
+   </head>
+   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+   <!--<script src="/public/bundle.js"></script>
+      <script src="/public/testmessage_pb.js"></script>-->
+   <script src="/socket.io/socket.io.js"></script>
+   <script src="/socket.io/socket.io.js"></script>
+   <script src="//cdn.rawgit.com/dcodeIO/protobuf.js/6.8.4/dist/protobuf.js"></script>
+   <script src="//cdn.rawgit.com/dcodeIO/protobuf.js/6.8.4/dist/protobuf.min.js"></script>
+   <script>
+      $(function () {
+        var socket = io();
+        $('form').submit(function(){
+          socket.emit('message', $('#m').val());
+          $('#m').val('');
+          return false;
+        });
+      });
+      var socket = io();
+      socket.on('news', function (msg) {
+      console.log(msg);
+      });
+	
+	
+	  
+   </script>
+   <script>
+function testerbin(){
+
+      var socket = io();
+	   socket.emit('databin','test');
+      socket.on('databin', function (msg) {
+      console.log("asdasdsad"+msg);
+	  var view = new DataView(msg);
+	  console.log('byteLength:', view.byteLength, 'uint8:', view.getUint8());
+      });
+	
+	  
+}
+   </script>
+   <body>
+      <-- PROTPBUF TESTING -->
+      <pre id="content"></pre>
+      <button onClick="sendMessage()">send message to server</button>
+      <script type="text/javascript">
+         function sendMessage(){
+         
+         socket.emit('data','test')}
+         
+         
+         
+            
+      </script>
+      <ul id="messages"></ul>
+      <form action="">
+         <input id="m" autocomplete="off" /><button>Send</button>
+      </form>
+      <script>
+         function createTestObject(){
+         
+         protobuf.load("./public/testmessage.proto", function(err, root) {
+          if (err)
+              throw err;
+         
+         
+          // Obtain a message type
+          var testmessage = root.lookupType("TestMessage.TestMessage");
+         
+          // Exemplary payload
+          var payload = { someText: "Hallo vom Client!" };
+         console.log(payload);
+         
+          // Verify the payload if necessary (i.e. when possibly incomplete or invalid)
+          var errMsg = testmessage.verify(payload);
+          if (errMsg)
+              throw Error(errMsg);
+         
+          // Create a new message
+          var message = testmessage.create(payload); // or use .fromObject if conversion is necessary
+         
+          // Encode a message to an Uint8Array (browser) or Buffer (node)
+          var buffer = testmessage.encode(message).finish();
+          // ... do something with buffer
+         
+          // Decode an Uint8Array (browser) or Buffer (node) to a message
+          var message = testmessage.decode(buffer);
+          // ... do something with message
+         
+          // If the application uses length-delimited buffers, there is also encodeDelimited and decodeDelimited.
+         
+          // Maybe convert the message back to a plain object
+          var object = testmessage.toObject(message, {
+              longs: String,
+              enums: String,
+              bytes: String,
+              // see ConversionOptions
+          });
+         });
+         
+         }
+         
+         
+         
+         function testdecoder(data){
+         
+         
+         
+         
+         
+         
+         
+         protobuf.load("./public/testmessage.proto", function(err, root) {
+          if (err)
+              throw err;
+         
+         
+         
+         var input=new Uint8Array(Object.keys(data).length); 
+         for (i = 0; i < Object.keys(data).length; i++) {
+          input[i]=data[i];
+         }
+         
+         
+         
+            // Obtain a message type
+          var testmessage = root.lookupType("TestMessage.TestMessage");
+         
+         
+          // Decode an Uint8Array (browser) or Buffer (node) to a message
+          var message = testmessage.decode(input);
+         console.log(message.someText);
+          // ... do something with message
+         
+          // If the application uses length-delimited buffers, there is also encodeDelimited and decodeDelimited.
+         
+          // Maybe convert the message back to a plain object
+          var object = testmessage.toObject(message, {
+              longs: String,
+              enums: String,
+              bytes: String,
+              // see ConversionOptions
+          });
+         });
+         }
+         
+         
+         
+      </script>
+   </body>
+</html>

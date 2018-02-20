@@ -1,0 +1,5 @@
+﻿package TestMessage;
+syntax = "proto3";
+message TestMessage{
+string someText=1;
+}

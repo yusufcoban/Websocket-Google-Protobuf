@@ -1,0 +1,30 @@
+{
+  "name": "test1",
+  "version": "1.0.0",
+  "description": "---",
+  "main": "index.js",
+  "scripts": {
+    "build": "browserify index.js -o bundle.js",
+    "watch": "watchify index.js -o bundle.js"
+  },
+  "author": "Yusuf Coban",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "google-protobuf": "^3.5.0",
+    "jquery": "^3.3.1",
+    "npm-git-install": "^0.3.0",
+    "protobufjs": "^6.8.5",
+    "socket.io": "^2.0.4",
+    "ts-protoc-gen": "^0.4.0",
+    "websocket": "^1.0.25",
+    "ws": "^4.0.0"
+  },
+  "optionalDependencies": {
+    "utf-8-validate": "^4.0.0"
+  },
+  "devDependencies": {
+    "browserify": "^16.1.0",
+    "watchify": "^3.10.0"
+  }
+}
