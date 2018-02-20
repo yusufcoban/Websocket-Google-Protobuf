@@ -33,23 +33,36 @@
       socket.on('news', function (msg) {
       console.log(msg);
       });
-	
-	
-	  
+      
+      
+      
    </script>
    <script>
-function testerbin(){
-
-      var socket = io();
-	   socket.emit('databin','test');
-      socket.on('databin', function (msg) {
-      console.log("asdasdsad"+msg);
-	  var view = new DataView(msg);
-	  console.log('byteLength:', view.byteLength, 'uint8:', view.getUint8());
-      });
-	
-	  
-}
+      function convert(inputObject){
+      
+      return new Uint8Array(Object.keys(inputObject).map(function (key) { return inputObject[key]; }))
+      
+      
+      
+      
+      }
+      function testerbin(){
+      
+         var socket = io();
+       socket.emit('databin','test');
+         socket.on('databin', function (msg) {
+         console.log(new Uint8Array(Object.keys(msg).map(function (key) { return msg[key]; })));
+      
+      
+      
+      
+      
+      
+      
+         });
+      
+      
+      }
    </script>
    <body>
       <-- PROTPBUF TESTING -->
@@ -116,23 +129,9 @@ function testerbin(){
          
          function testdecoder(data){
          
-         
-         
-         
-         
-         
-         
          protobuf.load("./public/testmessage.proto", function(err, root) {
           if (err)
               throw err;
-         
-         
-         
-         var input=new Uint8Array(Object.keys(data).length); 
-         for (i = 0; i < Object.keys(data).length; i++) {
-          input[i]=data[i];
-         }
-         
          
          
             // Obtain a message type
@@ -140,7 +139,7 @@ function testerbin(){
          
          
           // Decode an Uint8Array (browser) or Buffer (node) to a message
-          var message = testmessage.decode(input);
+          var message = testmessage.decode(convert(data));
          console.log(message.someText);
           // ... do something with message
          
